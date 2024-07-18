@@ -95,7 +95,29 @@ app.get("/userdata/:id", async (req,res) => {
     res.json(results)
 })
 
-app.delete("/")
+app.delete("/userdata/delete/:id", async (req,res) => {
+
+    let userColl = await dbConnect()
+
+    userColl.deleteOne({_id: new ObjectId(req.params.id)})
+
+    res.json("Deleted")
+})
+
+
+app.put("/userdata/update/:id", async (req,res) => {
+    let userColl = await dbConnect()
+
+    userColl.updateOne({_id: new ObjectId(req.params.id)},{
+        $set: {
+            _id: new ObjectId(req.params.id),
+            firstName: req.body.firstName,
+            lastName: req.body.lastName
+        }
+    })
+
+    res.json("Updated")
+})
 
 app.listen(myPort, () => {
   console.log(`Server is running on port: ${myPort}`);
