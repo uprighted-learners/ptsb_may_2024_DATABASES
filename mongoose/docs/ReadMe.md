@@ -1,9 +1,3 @@
-# Notes
-There are two different branches associated with this lesson.
-- Main
-  - This branch provides the base notes of material not filled out.
-- Completed
-  - This branch includes all the added notes for you to review and compare with your own code-along.
 
 ### Before Getting Started
 - **Postman** is installed. Download link below.
@@ -45,3 +39,7 @@ There are two different branches associated with this lesson.
   - [How to Install MongoDB Video](https://www.loom.com/share/23f358e7221048748b433e4f5fd8c83a?sid=209f37ae-1e2f-47a4-a726-06829a1a73da)
   - [MongoDB Community](https://www.mongodb.com/try/download/community)
   - [MongoDB Compass](https://www.mongodb.com/try/download/compass)
+  - [Mongoose Models](https://mongoosejs.com/docs/models.html)
+  - [Mongoose Queries](https://mongoosejs.com/docs/queries.html)
+  - [Mongoose Schemas](https://mongoosejs.com/docs/guide.html)
+
