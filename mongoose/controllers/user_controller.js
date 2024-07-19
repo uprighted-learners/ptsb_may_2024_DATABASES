@@ -42,6 +42,90 @@ router.get("/all", async(req,res) => {
         })
     }
 })
+//? GET - Get a user by id
+router.get("/one/:id", async(req,res) => {
+    try{    
+            const user = await User.findById(req.params.id).select({
+                firstName: 1, lastName: 1, email: 1
+            })
+
+            
+            res.status(200).json({
+                User: user
+            })
+
+    }catch(err){
+        res.status(500).json({
+            Error: err.message
+        })
+    }
+})
+//? GET - Get a user by name
+router.get("/name/:name", async(req,res) => {
+    try{    
+            const user = await User.find({
+                firstName: { $in: [req.params.name]}
+            }).select({
+                firstName: 1, lastName: 1, email: 1
+            })
+
+            res.status(200).json({
+                User: user
+            })
+
+    }catch(err){
+        res.status(500).json({
+            Error: err.message
+        })
+    }
+})
+//? DELETE - Remove a user
+router.delete("/delete/:id", async(req,res) => {
+    try{    
+       
+        const user = await User.findByIdAndDelete(req.params.id)
+
+        const allResults = await User.find().select({
+            firstName: 1, lastName: 1, email: 1
+        })
+
+        if(!user){
+            throw new Error("User not found")
+        }
+
+        res.status(200).json({
+            Deleted: user,
+            Results: allResults
+        })
+
+
+    }catch(err){
+        res.status(500).json({
+            Error: err.message
+        })
+    }
+})
+
+//? PUT - Update a user
+router.put("/update/:id", async(req,res) => {
+    try{    
+
+       let newInfo = req.body
+       let result = await User.findByIdAndUpdate(req.params.id, newInfo, {
+        new: true
+       })
+
+       res.status(200).json({
+            Result: result
+       })
+        
+    }catch(err){
+        res.status(500).json({
+            Error: err.message
+        })
+    }
+})
+
 
 
 
