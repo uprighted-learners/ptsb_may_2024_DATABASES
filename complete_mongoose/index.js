@@ -1,7 +1,7 @@
 //? Importing and applying dotenv, gives us access to env variables - process.env....
 require("dotenv").config();
 
-//TODO : get the seed data
+//TODO : seed the db eventually
 
 //? Importing express
 const express = require("express");
@@ -30,6 +30,21 @@ db.once("open", async () => {
 
 const PORT = process.env.PORTNUMBER || 8080;
 const app = express();
+
+//? Import our controller/s
+const userController = require("./controllers/user_contoller")
+
+//? Middleware to allow JSON to be accepted by our HTTP server
+app.use(express.json())
+
+//? Allow parsing of query strings
+app.use(express.urlencoded({ extended: true }));
+
+//? Allow our endpoints to be interacted with via web browser
+app.use(cors())
+
+//? Using the controller
+app.use("/user", userController)
 
 //? Connection to spin up the server
 app.listen(PORT,() => {
