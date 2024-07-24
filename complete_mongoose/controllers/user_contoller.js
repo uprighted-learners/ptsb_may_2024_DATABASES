@@ -35,13 +35,48 @@ router.post("/signup", async (req, res) => {
 
     res.status(200).json({
         Created: newUser,
+        Msg: "Success, User Created!",
         Token: token
     });
   } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+    // console.log(err);
+    res.status(500).json({
+      Error: err.code === 11000 ? "Error Signing up" : err.message
+    });
   }
 });
+
+//? Post Request - Signin
+router.post("/signin", async(req,res) => {
+  try{
+    let {email, pass} = req.body
+
+    const user = await User.find({email: email})
+
+    if(user.length === 0) {
+      throw new Error("Incorrect email or password")
+    }
+
+    let passwordMatch = await bcrypt.compare(pass, user[0].password)
+
+    if(!passwordMatch) throw new Error("Incorrect email or password")
+
+    const token = jwt.sign({id: user[0]._id}, process.env.JWT_SECRET, {expiresIn: "1 day"})
+    
+    res.status(200).json({
+      Msg: "User signed In!",
+      User: user[0],
+      Token: token
+    })
+
+  }catch(err){
+    res.status(500).json({
+      Error: err.message
+    })
+  }
+})
+
+
 
 //? Export and make these routes avail to the root file (index.js)
 module.exports = router;
