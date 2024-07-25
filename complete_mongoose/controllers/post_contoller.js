@@ -58,7 +58,27 @@ router.get("/all", async(req,res) => {
         
     }catch(err){
         res.status(500).json({
-            Error:err
+            Error:err.message
+        })
+    }
+})
+
+router.patch("/update/:id", async (req,res)=> {
+    try{
+
+        let newInfo = req.body;
+
+        let result = await Post.findByIdAndUpdate(req.params.id, newInfo, {
+            new: true
+        })
+
+        res.status(200).json({
+            Result: result
+        })
+
+    }catch(err){
+        res.status(200).json({
+            Error: err.message
         })
     }
 })
