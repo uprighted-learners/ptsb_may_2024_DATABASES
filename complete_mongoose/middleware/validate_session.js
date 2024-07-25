@@ -7,7 +7,7 @@ const validateSession = async (req, res, next) => {
     //? 1. Take the token, provided by the request object.-> headers.authorization
     const auth = req.headers.authorization;
 
-    console.log(auth);
+    console.log("Current header provided with request:",auth);
 
     if(!auth) throw new Error("Unauthorized");
 
@@ -19,11 +19,13 @@ const validateSession = async (req, res, next) => {
     
     //* Verify (string, secret)
 
-    console.log(decoded);
+    console.log("Decrypted payload:",decoded);
 
     const user = await User.findById(decoded.id);
 
     if(!user) throw new Error("User not found");
+
+    console.log("User making request:", user)
 
     req.user = user;
 

@@ -35,6 +35,9 @@ const app = express();
 const userController = require("./controllers/user_contoller")
 const postController = require("./controllers/post_contoller")
 
+//? Import validate-session
+const validateSession = require("./middleware/validate_session")
+
 //? Middleware to allow JSON to be accepted by our HTTP server
 app.use(express.json())
 
@@ -46,6 +49,8 @@ app.use(cors())
 
 //? Using the controller
 app.use("/user", userController)
+// Use middleware here
+app.use(validateSession)
 app.use("/post", postController)
 
 //? Connection to spin up the server
