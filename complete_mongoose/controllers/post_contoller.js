@@ -23,10 +23,10 @@ router.post("/create/:id", async (req,res) => {
     }
 })
 
-router.get("/mine/:id", async (req,res)=> {
+router.get("/mine/:userId", async (req,res)=> {
     try{
 
-    let results = await Post.find({user_id: req.params.id}).select({
+    let results = await Post.find({user_id: req.params.userId}).select({
         text: 1,
         createdAt: 1,
         updatedAt: 1
@@ -77,7 +77,25 @@ router.patch("/update/:id", async (req,res)=> {
         })
 
     }catch(err){
+        res.status(500).json({
+            Error: err.message
+        })
+    }
+})
+
+router.delete("/delete/:id", async(req,res) => {
+    try{
+        const post = await Post.findByIdAndDelete(req.params.id);
+
+        const allResults = await Post.find().populate("user_id", ["firstName", "lastName"])
+
         res.status(200).json({
+            Deleted: post,
+            Results: allResults
+        })
+
+    }catch(err){
+        res.status(500).json({
             Error: err.message
         })
     }
