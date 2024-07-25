@@ -33,6 +33,7 @@ const app = express();
 
 //? Import our controller/s
 const userController = require("./controllers/user_contoller")
+const postController = require("./controllers/post_contoller")
 
 //? Middleware to allow JSON to be accepted by our HTTP server
 app.use(express.json())
@@ -45,6 +46,7 @@ app.use(cors())
 
 //? Using the controller
 app.use("/user", userController)
+app.use("/post", postController)
 
 //? Connection to spin up the server
 app.listen(PORT,() => {
