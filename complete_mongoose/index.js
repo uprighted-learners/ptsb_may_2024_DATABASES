@@ -45,7 +45,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 //? Allow our endpoints to be interacted with via web browser
-app.use(cors())
+app.use(cors({
+    // Allows the server cookies to be sent over cross origin (if necessary)
+    credentials: true,
+    // Allow a white-list of IPs which can allow cross origin resource sharing
+    origin: ["http://localhost:5173"]
+}))
 
 //? Using the controller
 app.use("/user", userController)
